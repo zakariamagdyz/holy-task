@@ -1,5 +1,7 @@
 import React from "react";
 import { createGlobalStyle } from "styled-components";
+import useGetUsersLists from "./hooks/useGetUsersLists";
+import useLocalStorage from "./hooks/useLocalStorage";
 
 // Global styles
 
@@ -17,6 +19,9 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 function App() {
+  const [userList, isLoading, errorMsg] = useGetUsersLists();
+  console.log(userList);
+  if (isLoading) return <div>LOOOOOOooooooooOOOOOing</div>;
   return (
     <>
       <GlobalStyle />
