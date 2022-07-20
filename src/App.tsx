@@ -1,32 +1,19 @@
 import React from "react";
-import { createGlobalStyle } from "styled-components";
+import Users from "./components/Users";
 import useGetUsersLists from "./hooks/useGetUsersLists";
-import useLocalStorage from "./hooks/useLocalStorage";
+import { CssBaseline, ThemeProvider } from "@mui/material";
+import getTheme from "./styles/theme";
 
-// Global styles
-
-const GlobalStyle = createGlobalStyle`
-  *,*::after,*::before{
-    padding:0;
-    margin:0;
-    box-sizing: inherit;
-  }
-
-  body{
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-
-  }
-`;
+const theme = getTheme();
 
 function App() {
   const [userList, isLoading, errorMsg] = useGetUsersLists();
-  console.log(userList);
-  if (isLoading) return <div>LOOOOOOooooooooOOOOOing</div>;
+
   return (
-    <>
-      <GlobalStyle />
-      <div>hello from another hand</div>
-    </>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Users data={userList} isLoading={isLoading} error={errorMsg} />
+    </ThemeProvider>
   );
 }
 

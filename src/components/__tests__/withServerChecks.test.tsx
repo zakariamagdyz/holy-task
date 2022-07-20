@@ -105,3 +105,15 @@ test("Shouldn't render any of errorMsg or spinner components if data is fetched"
   expect(spinner).not.toBeInTheDocument();
   expect(errorMsg).not.toBeInTheDocument();
 });
+
+test("Should render an empty message if data length is zero", () => {
+  const DummyComponentWithChecks = withChecks(DummyComponnent);
+
+  render(<DummyComponentWithChecks data={[]} isLoading={false} error={null} />);
+
+  const emptyMsg = screen.queryByText(/There's nothing to show./i);
+  const wrappedComponent = screen.queryByTestId("data");
+
+  expect(emptyMsg).toBeInTheDocument();
+  expect(wrappedComponent).not.toBeInTheDocument();
+});

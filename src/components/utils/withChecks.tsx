@@ -1,5 +1,7 @@
 import React from "react";
 import Loading from "../Loading";
+import Alert from "@mui/material/Alert";
+import { Container } from "@mui/material";
 
 interface IChecks<DataType> {
   isLoading: boolean;
@@ -29,7 +31,11 @@ const withChecks = <DataType, ChecksType extends IChecks<DataType>>(
     return !data ? null : data.length ? (
       <WrappedComponent data={data} {...others} />
     ) : (
-      <p>"There's nothing to show yet."</p>
+      <Container maxWidth="md" sx={{ marginTop: "5rem" }}>
+        <Alert variant="filled" severity="info">
+          There's nothing to show.
+        </Alert>
+      </Container>
     );
   };
 };

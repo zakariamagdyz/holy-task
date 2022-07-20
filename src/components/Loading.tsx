@@ -1,14 +1,13 @@
 import React from "react";
-import styled from "styled-components";
-
-export const SpinnerOverlay = styled.div`
+import { styled } from "@mui/material/styles";
+export const SpinnerOverlay = styled("div")`
   height: 50vh;
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
 `;
-export const SpinnerContainer = styled.div`
+export const SpinnerContainer = styled("div")`
   width: 40px;
   height: 40px;
   background-color: #333;
