@@ -8,7 +8,7 @@ const useFormError = (formValue: EditState) => {
     // check for empty value
     const isEmptyValue = isEmptyValueExist(formValue);
     if (isEmptyValue) {
-      setError("All Input Fields are required");
+      setError("All input fields are required");
     } else {
       // only clear the error if the error exists
       if (error) {

@@ -10,7 +10,7 @@ test("should return error message if there is an empty value in form inputs", ()
   };
   const { result } = renderHook(() => useFormError(dummyFormInputValues));
 
-  expect(result.current[0]).toBe("All Input Fields are required");
+  expect(result.current[0]).toBe("All input fields are required");
 });
 
 test("should return null for error if there is no empty value", () => {

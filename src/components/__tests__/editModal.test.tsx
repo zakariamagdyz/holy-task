@@ -14,6 +14,8 @@ test("should open the modal when edit mode is ON", () => {
   dummyInitialStoreData.state.editMode.currentInfo = {
     name: "zakaria",
     phone: "011",
+    website: "http://www.zakaria.com",
+    email: "email@zakaria.com",
   };
   render(
     <storeContext.Provider value={dummyInitialStoreData}>

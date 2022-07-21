@@ -88,6 +88,7 @@ const EditView = () => {
           <Alert
             variant="filled"
             severity="error"
+            data-testid="form-error"
             sx={{ margin: "1em 1em 0 1em" }}
           >
             {error}
