@@ -21,9 +21,11 @@ const withChecks = <DataType, ChecksType extends IChecks<DataType>>(
 
     if (error) {
       return (
-        <p role="paragraph">
-          Sorry, Our server is down please try again later :(
-        </p>
+        <Container maxWidth="md" sx={{ marginTop: "5rem" }}>
+          <Alert role="paragraph" variant="filled" severity="error">
+            Sorry, Our server is down please try again later :(
+          </Alert>
+        </Container>
       );
     }
 

@@ -35,7 +35,7 @@ type Props = {
 const UserCard: React.FC<Props> = ({ user }) => {
   const dispatch = useDispatch();
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card sx={{ width: "100%", maxWidth: 345 }}>
       <CardMedia
         sx={{ backgroundColor: "#eee" }}
         component="img"

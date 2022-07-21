@@ -12,7 +12,7 @@ const getTheme = (darkMode: "ON" | "OFF") => {
     breakpoints: {
       values: {
         xs: 0,
-        sm: 376,
+        sm: 450,
         md: 769,
         lg: 1027,
         xl: 1400,

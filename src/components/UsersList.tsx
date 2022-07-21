@@ -9,6 +9,7 @@ const Container = styled("div")(({ theme }) => ({
   display: "grid",
   gap: "1rem",
   justifyContent: "center",
+  justifyItems: "center",
 
   [theme.breakpoints.up("sm")]: {
     gridTemplateColumns: "repeat(2, 1fr)",
