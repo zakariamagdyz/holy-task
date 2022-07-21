@@ -22,6 +22,7 @@ export const setEditModeOn = (payload: UserResponseWithLikes) => ({
 
 export const setEditModeOff = () => ({
   type: ACTION_TYPE.SET_EDIT_MODE_OFF,
+  payload: null,
 });
 
 export const toggleLikeAction = (payload: UserResponseWithLikes["id"]) => ({

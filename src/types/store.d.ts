@@ -14,7 +14,7 @@ export type storeAction = {
 };
 
 export type contextValueTypes = {
-  state: initStoreType;
+  state: StoreType;
   dispatch: React.Dispatch<storeAction>;
 };
 export interface UserResponseWithLikes extends UserResponse {

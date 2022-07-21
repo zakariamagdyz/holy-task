@@ -1,18 +1,20 @@
 import React from "react";
-import Users from "./components/Users";
+import UsersList from "./components/UsersList";
 import useGetUsersLists from "./hooks/useGetUsersLists";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import getTheme from "./styles/theme";
+import EditModel from "./components/EditModal";
 
 const theme = getTheme();
 
 function App() {
-  const [userList, isLoading, errorMsg] = useGetUsersLists();
+  const [usersList, isLoading, errorMsg] = useGetUsersLists();
 
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Users data={userList} isLoading={isLoading} error={errorMsg} />
+      <UsersList data={usersList} isLoading={isLoading} error={errorMsg} />
+      <EditModel />
     </ThemeProvider>
   );
 }

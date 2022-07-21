@@ -11,10 +11,10 @@ const getTheme = () => {
     breakpoints: {
       values: {
         xs: 0,
-        sm: 375,
-        md: 768,
-        lg: 1026,
-        xl: 1400,
+        sm: 376,
+        md: 769,
+        lg: 1027,
+        xl: 1401,
       },
     },
   });

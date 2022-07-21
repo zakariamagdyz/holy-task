@@ -40,7 +40,7 @@ const StoreProvider: React.FC<Props> = ({ children }) => {
 export default StoreProvider;
 
 // selectors
-
+// useContextSelector for memoizing state slices
 export const useUsersList = () =>
   useContextSelector(storeContext, (store) => store.state.users);
 

@@ -1,4 +1,4 @@
-import { toggleLike, deleteUser, updateUserInfo } from "../utils";
+import { toggleLike, deleteUser, updateUserInfo, isEmptyValue } from "../utils";
 import {
   deleteUserAction,
   toggleLikeAction,
@@ -105,5 +105,21 @@ describe("deleteUser", () => {
 
     // Assert
     expect(data).toEqual([]);
+  });
+});
+
+describe("isEmptyValue", () => {
+  it("should return true if any object value is empty", () => {
+    const isEmpty = isEmptyValue({ name: "zakaria", phone: "" });
+    expect(isEmpty).toBeTruthy();
+  });
+  it("should return false if all object values are filled", () => {
+    const isEmpty = isEmptyValue({ name: "zakaria", phone: "011" });
+    expect(isEmpty).toBeFalsy();
+  });
+
+  it("should return true if any value have empty spaces only", () => {
+    const isEmpty = isEmptyValue({ name: "zakaria", phone: "  " });
+    expect(isEmpty).toBeTruthy();
   });
 });
