@@ -1,46 +1,115 @@
-# Getting Started with Create React App
+# Frontend Assignment : Contacts App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Summary
 
-## Available Scripts
+Your task is to create a **responsive** single page React application that displays the profile of 10 users. Each user's profile contains an avatar and some information about them. and support functionalities like Like, Edit, Delete.
 
-In the project directory, you can run:
+## Requirements
 
-### `yarn start`
+- It has a single page listing all the users in grid format
+- The data for the users should be fetched from the given API (See API Endpoints below)
+- Each profile will contain an avatar. You should use [Avatars by DiceBear](https://avatars.dicebear.com/) API to fetch the avatars (See API Endpoints below)
+- The page should be responsive
+- Each of your component should have good unit tests.
+- While data is being fetched, you can add a loading indicator. (Can be obtained [here](https://tobiasahlin.com/spinkit/))
+- You should implement any of the Like, Edit, Delete functionalities. (See images for clarity)
+- when you implement any of the above functionality, you may use browser local storage for storing the changes.
+- Please take a look at the screenshots. Your aim is to create a similar app, though you have freedom to enhance the design if you want.
+- You may use any CSS library/framework that you are comfortable with for the designs. For example, you may use [Ant Design](https://ant.design/)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Submission
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Please create a **private** GitHub repository with your code and share access with @mahmoud63.
+Mail us the link to your GitHub repo within the given time.
 
-### `yarn test`
+#### Deployment (Optional)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- You may deploy your code and mail us the link along the Github repo
+- You may find [this document](https://create-react-app.dev/docs/deployment/) helpful for any doubts regarding deployment
 
-### `yarn build`
+## Evaluation Criteria
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+With this assignment we aim to evaluate the following aspects:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- Code Quality in terms of Reliability, Maintainability, Testability, and Reusability.
+- Understanding of JSX, props and components, and state management
+- Handling of API endpoints
+- Conditional rendering
+- Working with lists
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+The app needs to be responsive, and will be tested on Chromium and Firefox browsers against different dimensions.
 
-### `yarn eject`
+## General Tips
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+- Feel free to use any online resources.
+- Examine the screenshots closely for any design elements.
+- Try to complete one functionality before building another. It is better to miss features, than provide half-baked features.
+- Test the APIs on your browser or tools like Postman to understand the response schema better.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## API Endpoints
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### For users data
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+All 10 users profile data is to be downloaded from the following API endpoint:
 
-## Learn More
+```
+Method: GET
+URL: https://jsonplaceholder.typicode.com/users
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+The schema of the data received in the response is:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```Javascript
+// Array of 10 users
+[
+  {
+    id,	// The user's id
+    username,
+    name,
+    email,
+    phone,
+    website,
+    address: {
+	  street, // Address line 1
+	  suite, // Address line 2
+	  city,
+	  zipcode
+    },
+    company: {
+	  name, // The name of company where the user works
+    }
+  }
+]
+```
+
+### For users' avatar pictures
+
+You will be using [Avatars by DiceBear](https://avatars.dicebear.com/). They provide a free HTTP API to create unique avatar images based on any string we send as query parameter. Each string generates a unique image. You will use the `username` to generate a unique avatar for each user.
+
+The URL for the `GET` endpoint is:
+
+```
+https://avatars.dicebear.com/v2/avataaars/{{username}}.svg?options[mood][]=happy
+```
+
+The `{{username}}` in the URL is the placeholder for the user's username. It should be dynamically replaced by the username received from the users API endpoint. For example, if the username for one of the users is `psamd` then the URL for the avatar for this user will be:
+
+```
+https://avatars.dicebear.com/v2/avataaars/psamd.svg?options[mood][]=happy
+```
+
+## Screenshots
+
+Dimensions: 1024 x 926
+
+<img src="./src/assets/Screenshots/1024x926.png" width="50%" height="50%">
+
+Edit Mode
+
+<img src="./src/assets/Screenshots/edit.png" width="50%" height="50%">
+
+Dimensions: 375 x 926
+
+<img src="./src/assets/Screenshots/375x926.png" width="25%" height="25%">
+
+Please find the other dimensions in the directory Screenshots.

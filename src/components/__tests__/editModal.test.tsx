@@ -10,6 +10,11 @@ const dummyInitialStoreData: contextValueTypes = {
 test("should open the modal when edit mode is ON", () => {
   // arrange
   dummyInitialStoreData.state.editMode.mode = "ON";
+  //@ts-ignore
+  dummyInitialStoreData.state.editMode.currentInfo = {
+    name: "zakaria",
+    phone: "011",
+  };
   render(
     <storeContext.Provider value={dummyInitialStoreData}>
       <EditModel />

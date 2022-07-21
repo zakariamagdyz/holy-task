@@ -1,17 +1,12 @@
-import React, {
-  ChangeEvent,
-  FormEvent,
-  FormEventHandler,
-  useState,
-} from "react";
-import { Paper, Typography, Button } from "@mui/material";
+import React, { ChangeEvent, FormEvent, useState } from "react";
+import { Paper, Typography, Button, Alert } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import CloseIcon from "@mui/icons-material/Close";
 import IconButton from "@mui/material/IconButton";
 import { useDispatch, useEditMode } from "../store/store-context";
 import { setEditModeOff, updateUserAction } from "../store/actions";
 import EditInputs from "./EditInputs";
-import { isEmptyValue } from "../store/utils";
+import useFormError from "../hooks/useFormError";
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
   width: "90%",
@@ -61,6 +56,8 @@ const EditView = () => {
     phone: currentInfo.phone,
   });
 
+  const [error] = useFormError(state);
+
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setState((prevState) => ({ ...prevState, [name]: value }));
@@ -68,9 +65,8 @@ const EditView = () => {
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
-    // check for empty values to stop execution
-    const isEmpty = isEmptyValue(state);
-    if (isEmpty) return;
+    // check for error
+    if (error) return;
     // update user and turn edit mode to off
     dispatch(updateUserAction({ ...state, id: currentInfo.id }));
     dispatch(setEditModeOff());
@@ -88,6 +84,15 @@ const EditView = () => {
         </IconButton>
       </Header>
       <form onSubmit={handleSubmit}>
+        {error && (
+          <Alert
+            variant="filled"
+            severity="error"
+            sx={{ margin: "1em 1em 0 1em" }}
+          >
+            {error}
+          </Alert>
+        )}
         <EditInputs formValues={state} handleInputChange={handleInputChange} />
         <Footer>
           <Button
@@ -97,7 +102,7 @@ const EditView = () => {
           >
             Cancel
           </Button>
-          <Button variant="contained" type="submit">
+          <Button variant="contained" type="submit" disabled={!!error}>
             Ok
           </Button>
         </Footer>
