@@ -2,6 +2,28 @@ import { renderHook } from "@testing-library/react";
 import { act } from "react-dom/test-utils";
 import useLocalStorage from "../useLocalStorage";
 
+const localStorageMock = (() => {
+  let store: Record<string, any> = {};
+  return {
+    getItem(key: string) {
+      return store[key];
+    },
+    setItem(key: string, value: any) {
+      store[key] = value;
+    },
+    clear() {
+      store = {};
+    },
+    removeItem(key: string) {
+      delete store[key];
+    },
+  };
+})();
+
+Object.defineProperty(window, "localStorage", {
+  value: localStorageMock,
+});
+
 test("userList should initialize with null value if there is no value in localStorage", () => {
   const { result } = renderHook(() => useLocalStorage("usersList", null));
 

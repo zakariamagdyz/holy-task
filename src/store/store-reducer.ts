@@ -25,6 +25,8 @@ const storeReducer = (
       return { ...store, users: updateUserInfo(store, action) };
     case ACTION_TYPE.DELETE_USER:
       return { ...store, users: deleteUser(store, action) };
+    case ACTION_TYPE.TOGGLE_DARK_MODE:
+      return { ...store, darkMode: store.darkMode === "ON" ? "OFF" : "ON" };
     default:
       throw new Error(`Unhandled action type: ${action.type}`);
   }

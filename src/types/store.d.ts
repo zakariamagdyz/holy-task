@@ -6,6 +6,7 @@ export type StoreType = {
     mode: "ON" | "OFF";
     currentInfo: UserResponseWithLikes | null;
   };
+  darkMode: "ON" | "OFF";
 };
 
 export type storeAction = {

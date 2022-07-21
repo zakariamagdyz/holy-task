@@ -6,6 +6,7 @@ import { storeContext } from "../../store/store-context";
 import { setUsersListAction } from "../../store/actions";
 import * as dep from "../useLocalStorage";
 import React from "react";
+import { contextValueTypes } from "../../types/store";
 
 const DummyDataToFetch = [
   {
@@ -71,9 +72,13 @@ afterAll(() => server.close());
 test("Should fetch users From API if there is no usersList in localStorage", async () => {
   // Arrange
   const dummyStore = {
-    state: { users: null, editMode: { mode: "OFF", currentInfo: null } },
+    state: {
+      users: null,
+      editMode: { mode: "OFF", currentInfo: null },
+      darkMode: "OFF",
+    },
     dispatch: jest.fn(),
-  };
+  } as unknown as contextValueTypes;
   const wrapper = ({ children }: { children: React.ReactNode }) => (
     <storeContext.Provider value={dummyStore}>{children}</storeContext.Provider>
   );
@@ -110,7 +115,7 @@ test("Should get users From localStorage if userList is exist", async () => {
       editMode: { mode: "OFF", currentInfo: null },
     },
     dispatch: jest.fn(),
-  };
+  } as unknown as contextValueTypes;
   const wrapper = ({ children }: { children: React.ReactNode }) => (
     <storeContext.Provider value={dummyStore}>{children}</storeContext.Provider>
   );
@@ -128,8 +133,6 @@ test("Should get users From localStorage if userList is exist", async () => {
 
   //  wait until dispatch execute with localStorage data
   await waitFor(() => true);
-
-  console.log(result.current);
 
   // ASSERT
   expect(dummyStore.dispatch).toHaveBeenCalled();

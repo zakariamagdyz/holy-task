@@ -1,12 +1,13 @@
 import { createTheme, responsiveFontSizes } from "@mui/material/styles";
 import { grey } from "@mui/material/colors";
 
-const getTheme = () => {
+const getTheme = (darkMode: "ON" | "OFF") => {
   let theme = createTheme({
     palette: {
       secondary: {
         main: grey[600],
       },
+      mode: darkMode === "ON" ? "dark" : "light",
     },
     breakpoints: {
       values: {
@@ -14,7 +15,7 @@ const getTheme = () => {
         sm: 376,
         md: 769,
         lg: 1027,
-        xl: 1401,
+        xl: 1400,
       },
     },
   });

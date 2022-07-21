@@ -6,13 +6,14 @@ import {
   setUsersListAction,
   toggleLikeAction,
   updateUserAction,
+  toggleDarkMode,
 } from "../actions";
 import storeReducer from "../store-reducer";
 
 const initialStore = jest.fn().mockReturnValue({
-  users: null,
-  currentUser: null,
+  usersList: null,
   editMode: false,
+  darkMode: "ON",
 })() as StoreType;
 
 describe("Test Reducer", () => {
@@ -109,6 +110,21 @@ describe("Test Reducer", () => {
       expect(newStore.users).toEqual([
         { id: 3, name: "ahmed", phone: "021", hasLike: true },
       ]);
+    });
+  });
+
+  describe("ToggleDarkMode", () => {
+    test("should disable darkMode if it's already enabled", () => {
+      initialStore.darkMode = "ON";
+      const newStore = storeReducer(initialStore, toggleDarkMode());
+
+      expect(newStore.darkMode).toEqual("OFF");
+    });
+    test("should enable darkMode if it's already disabled", () => {
+      initialStore.darkMode = "OFF";
+      const newStore = storeReducer(initialStore, toggleDarkMode());
+
+      expect(newStore.darkMode).toEqual("ON");
     });
   });
 

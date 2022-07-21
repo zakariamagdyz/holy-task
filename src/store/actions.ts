@@ -25,6 +25,11 @@ export const setEditModeOff = () => ({
   payload: null,
 });
 
+export const toggleDarkMode = () => ({
+  type: ACTION_TYPE.TOGGLE_DARK_MODE,
+  payload: null,
+});
+
 export const toggleLikeAction = (payload: UserResponseWithLikes["id"]) => ({
   type: ACTION_TYPE.TOGGLE_LIKE,
   payload,

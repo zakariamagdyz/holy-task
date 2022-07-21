@@ -35,11 +35,11 @@ type Props = {
 const UserCard: React.FC<Props> = ({ user }) => {
   const dispatch = useDispatch();
   return (
-    <Card sx={{ maxWidth: 345, height: 430 }}>
+    <Card sx={{ maxWidth: 345 }}>
       <CardMedia
         sx={{ backgroundColor: "#eee" }}
         component="img"
-        height="53%"
+        height="240"
         image={`https://avatars.dicebear.com/v2/avataaars/${user.name}.svg?options[mood][]=happy`}
         alt={user.name}
       />

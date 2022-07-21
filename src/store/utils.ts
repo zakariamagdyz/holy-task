@@ -24,3 +24,14 @@ export const deleteUser = (store: StoreType, action: storeAction) => {
   ) as UserResponseWithLikes[];
 };
 
+export const getModeFromLocalStorage = () => {
+  try {
+    const Mode = localStorage.getItem("darkMode");
+    if (Mode) {
+      return JSON.parse(Mode) === "ON" ? "ON" : "OFF";
+    }
+    return "OFF";
+  } catch (error) {
+    return "OFF";
+  }
+};

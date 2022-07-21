@@ -87,8 +87,7 @@ test("should render disabled ok btn if any of input fileds has an empty value", 
   fireEvent.change(nameInput, { target: { value: "" } });
   // get btn
   const actionBtns = screen.getByText(/ok/i);
-  // eslint-disable-next-line
-  screen.debug();
+
   expect(actionBtns.className).toContain("Mui-disabled");
 });
 
@@ -101,7 +100,6 @@ test("should render visible ok btn if all input values is filled", () => {
 
   // get btn
   const actionBtns = screen.getByText(/ok/i);
-  // eslint-disable-next-line
-  screen.debug();
+
   expect(actionBtns.className).not.toContain("Mui-disabled");
 });
