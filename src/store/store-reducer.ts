@@ -28,7 +28,7 @@ const storeReducer = (
     case ACTION_TYPE.TOGGLE_DARK_MODE:
       return { ...store, darkMode: store.darkMode === "ON" ? "OFF" : "ON" };
     default:
-      throw new Error(`Unhandled action type: ${action.type}`);
+      return store;
   }
 };
 

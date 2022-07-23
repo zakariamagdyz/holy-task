@@ -22,15 +22,15 @@ const withChecks = <DataType, ChecksType extends IChecks<DataType>>(
     if (error) {
       return (
         <Container maxWidth="md" sx={{ marginTop: "5rem" }}>
-          <Alert role="paragraph" variant="filled" severity="error">
+          <Alert data-testid="error-msg" variant="filled" severity="error">
             Sorry, Our server is down please try again later :(
           </Alert>
         </Container>
       );
     }
 
-    // if there's no data don't show any thing else check for arr length
-    return !data ? null : data.length ? (
+    // return wrappedComponent if data is an array or single object
+    return !data ? null : data.length || !(data instanceof Array) ? (
       <WrappedComponent data={data} {...others} />
     ) : (
       <Container maxWidth="md" sx={{ marginTop: "5rem" }}>

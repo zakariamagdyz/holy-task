@@ -1,6 +1,7 @@
 import { renderHook } from "@testing-library/react";
 import { act } from "react-dom/test-utils";
 import useLocalStorage from "../useLocalStorage";
+import { dummyFetchedUsers, dummyCurrentUser } from "../../data/dummyData";
 
 const localStorageMock = (() => {
   let store: Record<string, any> = {};
@@ -24,45 +25,48 @@ Object.defineProperty(window, "localStorage", {
   value: localStorageMock,
 });
 
-test("userList should initialize with null value if there is no value in localStorage", () => {
-  const { result } = renderHook(() => useLocalStorage("usersList", null));
+//const mockedSetItem = jest.spyOn(window.localStorage, "setItem"); //
 
-  expect(result.current[0]).toBeNull();
-});
+describe("useLocalStorage", () => {
+  test("userList should initialize with null value if there is no value in localStorage", () => {
+    const { result } = renderHook(() => useLocalStorage("usersList", null));
 
-test("should get userList value from localStorage instead using initial value", () => {
-  // set dummy data to usersList in localStorage
-  const dummyData = [{ name: "ahmed" }, { name: "zakaria" }];
-  localStorage.setItem("usersList", JSON.stringify(dummyData));
-  // mocked fn after using it
-
-  // ACT
-  const { result } = renderHook(() => useLocalStorage("usersList", null));
-
-  //Asser
-  expect(result.current[0]).toEqual(dummyData);
-});
-
-test("should set a new value to localStorage usersList key", () => {
-  // set dummy data to usersList in localStorage
-  const dummyData = [{ name: "ahmed" }];
-  localStorage.setItem("usersList", JSON.stringify(dummyData));
-
-  const mockedSetItem = jest.spyOn(window.localStorage, "setItem");
-
-  // ACT
-  const { result } = renderHook(() => useLocalStorage("usersList", dummyData));
-
-  // add new piece of data to localStorage
-  act(() => {
-    result.current[1]([...dummyData, { name: "ali" }]);
+    expect(result.current[0]).toBeNull();
   });
 
-  //Asser
-  expect(mockedSetItem).toHaveBeenCalled();
-  expect(mockedSetItem).toHaveBeenCalledWith(
-    "usersList",
-    JSON.stringify([...dummyData, { name: "ali" }])
-  );
-  expect(result.current[0]).toEqual([...dummyData, { name: "ali" }]);
+  test("should get userList value from localStorage instead of using initial value", () => {
+    // set dummy data to usersList in localStorage
+    localStorage.setItem("usersList", JSON.stringify(dummyFetchedUsers));
+
+    // ACT
+    const { result } = renderHook(() => useLocalStorage("usersList", null));
+
+    //Asser
+    expect(result.current[0]).toEqual(dummyFetchedUsers);
+  });
+
+  test("should set a new value to localStorage usersList key", () => {
+    // set dummy data to usersList in localStorage
+    localStorage.setItem("usersList", JSON.stringify(dummyFetchedUsers));
+    const mockedSetItem = jest.spyOn(window.localStorage, "setItem");
+
+    // ACT
+    const { result } = renderHook(() =>
+      useLocalStorage("usersList", dummyFetchedUsers)
+    );
+
+    // add new piece of data to localStorage
+    act(() => {
+      result.current[1]([...dummyFetchedUsers, dummyCurrentUser]);
+    });
+
+    //Assert
+    // should calll setItem fn to save new value to local storage
+    expect(mockedSetItem).toHaveBeenCalled();
+    expect(mockedSetItem).toHaveBeenCalledWith(
+      "usersList",
+      JSON.stringify([...dummyFetchedUsers, dummyCurrentUser])
+    );
+    expect(result.current[0]).toEqual([...dummyFetchedUsers, dummyCurrentUser]);
+  });
 });

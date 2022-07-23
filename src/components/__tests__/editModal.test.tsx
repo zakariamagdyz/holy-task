@@ -2,42 +2,49 @@ import { render, screen } from "@testing-library/react";
 import { storeContext } from "../../store/store-context";
 import { contextValueTypes } from "../../types/store";
 import EditModel from "../EditModal";
+import { dummyCurrentUser } from "../../data/dummyData";
 
-const dummyInitialStoreData: contextValueTypes = {
-  state: { users: null, editMode: { mode: "OFF", currentInfo: null } },
-  dispatch: jest.fn(),
-};
-test("should open the modal when edit mode is ON", () => {
-  // arrange
-  dummyInitialStoreData.state.editMode.mode = "ON";
-  //@ts-ignore
-  dummyInitialStoreData.state.editMode.currentInfo = {
-    name: "zakaria",
-    phone: "011",
-    website: "http://www.zakaria.com",
-    email: "email@zakaria.com",
-  };
-  render(
-    <storeContext.Provider value={dummyInitialStoreData}>
-      <EditModel />
-    </storeContext.Provider>
-  );
+let dummyInitialStoreData: contextValueTypes;
 
-  const modal = screen.queryByTestId("modal");
+describe("EditModel", () => {
+  beforeEach(() => {
+    dummyInitialStoreData = {
+      state: {
+        users: null,
+        editMode: { mode: "OFF", currentInfo: null },
+        darkMode: "OFF",
+      },
+      dispatch: jest.fn(),
+    };
+  });
 
-  expect(modal).toBeInTheDocument();
-});
+  test("should open the modal when edit mode is ON", () => {
+    // change data of store
+    dummyInitialStoreData.state.darkMode = "ON";
+    dummyInitialStoreData.state.editMode = {
+      mode: "ON",
+      currentInfo: dummyCurrentUser,
+    };
 
-test("should close the modal when edit mode is OFF", () => {
-  // arrange
-  dummyInitialStoreData.state.editMode.mode = "OFF";
-  render(
-    <storeContext.Provider value={dummyInitialStoreData}>
-      <EditModel />
-    </storeContext.Provider>
-  );
+    render(
+      <storeContext.Provider value={dummyInitialStoreData}>
+        <EditModel />
+      </storeContext.Provider>
+    );
 
-  const modal = screen.queryByTestId("modal");
+    expect(screen.getByTestId("modal")).toBeInTheDocument();
+  });
 
-  expect(modal).not.toBeInTheDocument();
+  test("should close the modal when edit mode is OFF", () => {
+    // arrange
+    dummyInitialStoreData.state.editMode = { mode: "OFF", currentInfo: null };
+
+    render(
+      <storeContext.Provider value={dummyInitialStoreData}>
+        <EditModel />
+      </storeContext.Provider>
+    );
+
+    expect(screen.queryByTestId("modal")).not.toBeInTheDocument();
+  });
 });

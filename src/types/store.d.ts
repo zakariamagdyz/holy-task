@@ -1,23 +1,23 @@
-import { ACTION_TYPE } from "../store/store-context";
+import { ACTION_TYPE } from "../store/actions";
 
-export type StoreType = {
+export interface StoreType {
   users: UserResponseWithLikes[] | null;
   editMode: {
     mode: "ON" | "OFF";
     currentInfo: UserResponseWithLikes | null;
   };
   darkMode: "ON" | "OFF";
-};
+}
 
-export type storeAction = {
-  type: ACTION_TYPE.SET_USERS_LIST | ACTION_TYPE.TOGGLE_EDIT_MODE;
+export interface storeAction {
+  type: keyof typeof ACTION_TYPE;
   payload: any;
-};
+}
 
-export type contextValueTypes = {
+export interface contextValueTypes {
   state: StoreType;
   dispatch: React.Dispatch<storeAction>;
-};
+}
 export interface UserResponseWithLikes extends UserResponse {
   hasLike: boolean;
 }

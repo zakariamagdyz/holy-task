@@ -1,7 +1,7 @@
 import React from "react";
 import { UserResponseWithLikes } from "../types/store";
 import UserCard from "./UserCard";
-import withChecks from "./utils/withChecks";
+import withAsyncChecks from "./utils/withAsyncChecks";
 import { styled } from "@mui/material/styles";
 
 const Container = styled("div")(({ theme }) => ({
@@ -37,4 +37,4 @@ const Users: React.FC<Props> = ({ data: users }) => {
   );
 };
 
-export default withChecks(Users);
+export default withAsyncChecks(Users);

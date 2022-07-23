@@ -15,8 +15,8 @@ const useGetUsersLists = () => {
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   useEffect(() => {
-    // Check if userList dosen't exit to fetch it from API to set it on global store
-    if (!LSUserList) {
+    // Check if userList dosen't exit or has empty values to fetch it from API and set it on global store
+    if (!LSUserList || LSUserList.length === 0) {
       (async () => {
         try {
           setLoading(true);

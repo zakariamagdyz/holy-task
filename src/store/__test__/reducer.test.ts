@@ -1,4 +1,3 @@
-import { StoreType } from "../../types/store";
 import {
   deleteUserAction,
   setEditModeOn,
@@ -9,43 +8,46 @@ import {
   toggleDarkMode,
 } from "../actions";
 import storeReducer from "../store-reducer";
+import {
+  dummyStoreWithUsersData,
+  dummyFetchedUsersWithLike,
+  dummyCurrentUser,
+} from "../../data/dummyData";
+import { StoreType } from "../../types/store";
 
-const initialStore = jest.fn().mockReturnValue({
-  usersList: null,
-  editMode: false,
-  darkMode: "ON",
-})() as StoreType;
+let dummyStore: StoreType;
 
 describe("Test Reducer", () => {
+  beforeEach(() => {
+    dummyStore = JSON.parse(JSON.stringify(dummyStoreWithUsersData));
+  });
+
   describe("setUsersListAction", () => {
     it("should return a store with new usersList", () => {
-      const userList = [
-        { id: 1, name: "zakaria", phone: "011" },
-        { id: 2, name: "ahmed", phone: "012" },
-      ];
-      // @ts-ignore
-      const newStore = storeReducer(initialStore, setUsersListAction(userList));
+      const newStore = storeReducer(
+        dummyStore,
+        setUsersListAction(dummyFetchedUsersWithLike)
+      );
 
-      expect(newStore.users).toEqual(userList);
+      expect(newStore.users).toEqual(dummyFetchedUsersWithLike);
     });
   });
 
   describe("SetEditModeOn", () => {
     it("should convert editMode to On if it's initial value is Off and add currentInfo", () => {
-      const currentUser = { id: 1, name: "zakarai", phone: "011" };
-
-      // @ts-ignore
-      const newStore = storeReducer(initialStore, setEditModeOn(currentUser));
+      const newStore = storeReducer(
+        dummyStore,
+        setEditModeOn(dummyCurrentUser)
+      );
 
       expect(newStore.editMode.mode).toBe("ON");
-      expect(newStore.editMode.currentInfo).toEqual(currentUser);
+      expect(newStore.editMode.currentInfo).toEqual(dummyCurrentUser);
     });
   });
 
   describe("SetEditModeOff", () => {
     it("should convert editMode to OFF and remove currentInfo", () => {
-      // @ts-ignore
-      const newStore = storeReducer(initialStore, setEditModeOff());
+      const newStore = storeReducer(dummyStore, setEditModeOff());
 
       expect(newStore.editMode.mode).toBe("OFF");
       expect(newStore.editMode.currentInfo).toBeNull();
@@ -53,89 +55,63 @@ describe("Test Reducer", () => {
   });
   describe("ToggleLikeAction", () => {
     it("should toggle like property for specefic user", () => {
-      initialStore.users = [
-        // @ts-ignore
-        { id: 1, name: "zakarai", phone: "011", hasLike: false },
-      ];
+      // arrange
+      dummyStore.users![0].hasLike = true;
 
       const newStore = storeReducer(
-        initialStore,
-        // @ts-ignore
-        toggleLikeAction(initialStore.users[0].id)
+        dummyStore,
+        toggleLikeAction(dummyStore.users![0].id)
       );
 
       expect(newStore.users).toEqual([
-        { id: 1, name: "zakarai", phone: "011", hasLike: true },
+        { ...dummyStore.users![0], hasLike: false },
+        { ...dummyStore.users![1] },
       ]);
     });
   });
 
   describe("UpdateUserAction", () => {
     it("should update specefic user with new data", () => {
-      initialStore.users = [
-        // @ts-ignore
-        { id: 1, name: "zakarai", phone: "011", hasLike: false },
-        // @ts-ignore
-        { id: 3, name: "ahmed", phone: "021", hasLike: true },
-      ];
-
       const newStore = storeReducer(
-        initialStore,
-        // @ts-ignore
-        updateUserAction({ id: 1, name: "zakaria magdy" })
+        dummyStore,
+        updateUserAction({ ...dummyCurrentUser, name: "mahmoud" })
       );
+      console.log(newStore);
 
       expect(newStore.users).toEqual([
-        { id: 1, name: "zakaria magdy", phone: "011", hasLike: false },
-        { id: 3, name: "ahmed", phone: "021", hasLike: true },
+        { ...dummyStore.users![0], name: "mahmoud" },
+        { ...dummyStore.users![1] },
       ]);
     });
   });
 
   describe("deleteUserAction", () => {
     it("should delete user from usersList", () => {
-      initialStore.users = [
-        // @ts-ignore
-        { id: 1, name: "zakarai", phone: "011", hasLike: false },
-        // @ts-ignore
-        { id: 3, name: "ahmed", phone: "021", hasLike: true },
-      ];
-
       const newStore = storeReducer(
-        initialStore,
-        // @ts-ignore
-        deleteUserAction(initialStore.users[0].id)
+        dummyStore,
+        deleteUserAction(dummyStore.users![0].id)
       );
 
-      expect(newStore.users).toEqual([
-        { id: 3, name: "ahmed", phone: "021", hasLike: true },
-      ]);
+      expect(newStore.users).toEqual([{ ...dummyStore.users![1] }]);
     });
   });
 
   describe("ToggleDarkMode", () => {
     test("should disable darkMode if it's already enabled", () => {
-      initialStore.darkMode = "ON";
-      const newStore = storeReducer(initialStore, toggleDarkMode());
+      //arrange
+      dummyStore.darkMode = "ON";
+
+      const newStore = storeReducer(dummyStore, toggleDarkMode());
 
       expect(newStore.darkMode).toEqual("OFF");
     });
+
     test("should enable darkMode if it's already disabled", () => {
-      initialStore.darkMode = "OFF";
-      const newStore = storeReducer(initialStore, toggleDarkMode());
+      dummyStore.darkMode = "OFF";
+
+      const newStore = storeReducer(dummyStore, toggleDarkMode());
 
       expect(newStore.darkMode).toEqual("ON");
-    });
-  });
-
-  describe("Unknown Action type", () => {
-    it("should throw an error if the action type is unknown", () => {
-      expect(() => {
-        storeReducer(initialStore, {
-          type: "UNKNOWN_ACTION_TYPE",
-          payload: null,
-        });
-      }).toThrow();
     });
   });
 });

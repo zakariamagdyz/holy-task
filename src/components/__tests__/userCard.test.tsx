@@ -1,60 +1,46 @@
 import { render, screen } from "@testing-library/react";
-import { UserResponseWithLikes } from "../../types/store";
 import UserCard from "../UserCard";
+import { dummyCurrentUser } from "../../data/dummyData";
 
-const dummyData = {
-  id: 1,
-  name: "zakaria",
-  phone: "011",
-  email: "zakaria@gmail.com",
-  website: "http://www.zakaria.com",
-  hasLike: false,
-} as unknown as UserResponseWithLikes;
+describe("UserCard", () => {
+  test("should render user image", () => {
+    render(<UserCard user={dummyCurrentUser} />);
 
-test("should render user image", () => {
-  render(<UserCard user={dummyData} />);
+    expect(screen.getByAltText(dummyCurrentUser.name)).toBeInTheDocument();
+  });
 
-  const userImage = screen.getByAltText(dummyData.name);
+  test("should render user name and info", () => {
+    render(<UserCard user={dummyCurrentUser} />);
 
-  expect(userImage).toBeInTheDocument();
-});
+    expect(screen.getByText(dummyCurrentUser.name)).toBeInTheDocument();
+    expect(screen.getByTestId("userInfo")).toBeInTheDocument();
+  });
 
-test("should render user name and info", () => {
-  render(<UserCard user={dummyData} />);
-  const userTitle = screen.getByText(dummyData.name);
-  const userInfo = screen.getByTestId("userInfo");
+  test("should render Action btns", () => {
+    render(<UserCard user={dummyCurrentUser} />);
 
-  expect(userTitle).toBeInTheDocument();
-  expect(userInfo).toBeInTheDocument();
-});
+    expect(screen.getByTestId("actionBtns")).toBeInTheDocument();
+  });
 
-test("should render Action btns", () => {
-  render(<UserCard user={dummyData} />);
-  const actionBtns = screen.getByTestId("actionBtns");
+  test("should render filledLike btn if user hasLike is true", () => {
+    // arrange
+    dummyCurrentUser.hasLike = true;
+    // act
+    render(<UserCard user={dummyCurrentUser} />);
 
-  expect(actionBtns).toBeInTheDocument();
-});
+    // assert
+    expect(screen.getByTestId("liked")).toBeInTheDocument();
+    expect(screen.queryByTestId("notLiked")).not.toBeInTheDocument();
+  });
 
-test("should render filledLike btn if user hasLike is true", () => {
-  // arrange
-  dummyData.hasLike = true;
-  // act
-  render(<UserCard user={dummyData} />);
-  const filledLike = screen.queryByTestId("liked");
-  const outlinedLike = screen.queryByTestId("notLiked");
-  // assert
-  expect(filledLike).toBeInTheDocument();
-  expect(outlinedLike).not.toBeInTheDocument();
-});
+  test("should render outlinedLike btn if user hasLike is false", () => {
+    // arrange
+    dummyCurrentUser.hasLike = false;
+    // act
+    render(<UserCard user={dummyCurrentUser} />);
 
-test("should render outlinedLike btn if user hasLike is false", () => {
-  // arrange
-  dummyData.hasLike = false;
-  // act
-  render(<UserCard user={dummyData} />);
-  const filledLike = screen.queryByTestId("liked");
-  const outlinedLike = screen.queryByTestId("notLike");
-  // assert
-  expect(outlinedLike).toBeInTheDocument();
-  expect(filledLike).not.toBeInTheDocument();
+    // assert
+    expect(screen.getByTestId("notLike")).toBeInTheDocument();
+    expect(screen.queryByTestId("liked")).not.toBeInTheDocument();
+  });
 });
