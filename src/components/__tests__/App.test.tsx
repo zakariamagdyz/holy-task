@@ -1,4 +1,8 @@
-import { render, screen } from "@testing-library/react";
+import {
+  render,
+  screen,
+  waitForElementToBeRemoved,
+} from "@testing-library/react";
 import App from "../../App";
 import StoreProvider from "../../store/store-context";
 import { rest } from "msw";
@@ -25,7 +29,7 @@ const renderAppComponentWithProvider = () => {
 };
 
 describe("App", () => {
-  test("should render the spinner while fetching data from the server", () => {
+  it("should render the spinner while fetching data from the server", () => {
     renderAppComponentWithProvider();
 
     expect(screen.getByTestId("spinner")).toBeInTheDocument();
@@ -47,15 +51,15 @@ describe("App", () => {
 
     renderAppComponentWithProvider();
 
-    expect(await screen.findByTestId("error-msg")).toBeInTheDocument();
-
+    await waitForElementToBeRemoved(() => screen.queryByTestId("spinner"));
+    expect(screen.getByTestId("error-msg")).toBeInTheDocument();
     expect(screen.queryByRole("article")).toBe(null);
-    expect(screen.queryByTestId("spinner")).not.toBeInTheDocument();
   });
 
   test("should render the correct number of userCard after fetching data", async () => {
     renderAppComponentWithProvider();
 
-    expect((await screen.findAllByRole("article")).length).toBe(2);
+    await waitForElementToBeRemoved(() => screen.queryByTestId("spinner"));
+    expect(screen.getAllByRole("article").length).toBe(2);
   });
 });

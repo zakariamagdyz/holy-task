@@ -21,9 +21,11 @@ const useGetUsersLists = () => {
         try {
           setLoading(true);
           const res = await fetch("https://jsonplaceholder.typicode.com/users");
-          const data = (await res.json()) as UserResponse[];
+          const data = await res.json();
+
+          if (!res.ok) throw new Error(data.message);
           // add like capability to userList
-          const userListsWithHasLike = data.map((user) => ({
+          const userListsWithHasLike = data.map((user: UserResponse) => ({
             ...user,
             hasLike: false,
           }));

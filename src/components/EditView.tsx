@@ -66,13 +66,19 @@ const EditView = () => {
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
-    // check for email validation
+    // check for email & website validation
     if (!validator.isEmail(state.email)) {
       setError("Please enter a valid email");
       return;
     }
-    // check for error
-    if (error) return;
+    if (!validator.isURL(state.website)) {
+      setError("Please enter a valid URL");
+      return;
+    }
+
+    if (error)
+      // check for error
+      return;
     // update user and turn edit mode to off
     dispatch(updateUserAction({ ...state, id: currentInfo.id }));
     dispatch(setEditModeOff());
