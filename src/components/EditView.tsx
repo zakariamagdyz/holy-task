@@ -7,7 +7,6 @@ import { useDispatch, useEditMode } from "../store/store-context";
 import { setEditModeOff, updateUserAction } from "../store/actions";
 import EditInputs from "./EditInputs";
 import useFormError from "../hooks/useFormError";
-import validator from "validator";
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
   width: "90%",
@@ -57,7 +56,7 @@ const EditView = () => {
     phone: currentInfo.phone,
   });
 
-  const [error, setError] = useFormError(state);
+  const [error] = useFormError(state);
 
   const handleInputChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -66,19 +65,7 @@ const EditView = () => {
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
-    // check for email & website validation
-    if (!validator.isEmail(state.email)) {
-      setError("Please enter a valid email");
-      return;
-    }
-    if (!validator.isURL(state.website)) {
-      setError("Please enter a valid URL");
-      return;
-    }
-
-    if (error)
-      // check for error
-      return;
+    if (error) return;
     // update user and turn edit mode to off
     dispatch(updateUserAction({ ...state, id: currentInfo.id }));
     dispatch(setEditModeOff());
