@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FormEvent, useState } from "react";
+import React, { ChangeEvent, FormEvent, useCallback, useState } from "react";
 import { Paper, Typography, Button, Alert } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import CloseIcon from "@mui/icons-material/Close";
@@ -59,10 +59,10 @@ const EditView = () => {
 
   const [error, setError] = useFormError(state);
 
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setState((prevState) => ({ ...prevState, [name]: value }));
-  };
+  }, []);
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();

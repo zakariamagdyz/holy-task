@@ -42,4 +42,4 @@ const EditInputs: React.FC<Props> = ({ formValues, handleInputChange }) => {
   );
 };
 
-export default EditInputs;
+export default React.memo(EditInputs);
