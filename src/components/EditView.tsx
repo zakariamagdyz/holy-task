@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FormEvent, useState } from "react";
+import React, { ChangeEvent, FormEvent, useCallback, useState } from "react";
 import { Paper, Typography, Button, Alert } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import CloseIcon from "@mui/icons-material/Close";
@@ -7,7 +7,6 @@ import { useDispatch, useEditMode } from "../store/store-context";
 import { setEditModeOff, updateUserAction } from "../store/actions";
 import EditInputs from "./EditInputs";
 import useFormError from "../hooks/useFormError";
-import validator from "validator";
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
   width: "90%",
@@ -57,21 +56,15 @@ const EditView = () => {
     phone: currentInfo.phone,
   });
 
-  const [error, setError] = useFormError(state);
+  const [error] = useFormError(state);
 
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setState((prevState) => ({ ...prevState, [name]: value }));
-  };
+  }, []);
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
-    // check for email validation
-    if (!validator.isEmail(state.email)) {
-      setError("Please enter a valid email");
-      return;
-    }
-    // check for error
     if (error) return;
     // update user and turn edit mode to off
     dispatch(updateUserAction({ ...state, id: currentInfo.id }));

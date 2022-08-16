@@ -14,7 +14,6 @@ const Container = styled("header")`
 const Header = () => {
   const dispatch = useDispatch();
   const darkMode = useDarkMode();
-
   return (
     <AppBar position="static" color="inherit">
       <Container>

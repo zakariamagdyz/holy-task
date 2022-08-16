@@ -4,7 +4,7 @@ import UserCard from "./UserCard";
 import withAsyncChecks from "./utils/withAsyncChecks";
 import { styled } from "@mui/material/styles";
 
-const Container = styled("div")(({ theme }) => ({
+const Container = styled("main")(({ theme }) => ({
   padding: "3rem 1rem",
   display: "grid",
   gap: "1rem",

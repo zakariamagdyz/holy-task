@@ -103,13 +103,10 @@ describe("Fetching usersList from localStorage", () => {
     });
 
     //  wait until dispatch execute with localStorage data
-    await waitFor(() => true);
-
-    // ASSERT
-    expect(dummyStore.dispatch).toHaveBeenCalled();
-    expect(dummyStore.dispatch).toHaveBeenCalledTimes(1);
-    expect(dummyStore.dispatch).toHaveBeenCalledWith(
-      setUsersListAction(fetchedDataWithLikes)
+    await waitFor(() =>
+      expect(dummyStore.dispatch).toHaveBeenCalledWith(
+        setUsersListAction(fetchedDataWithLikes)
+      )
     );
   });
 });
